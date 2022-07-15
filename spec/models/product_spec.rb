@@ -4,6 +4,7 @@ RSpec.describe Product, type: :model do
   context 'model validations' do
     describe 'columns' do
       it { should validate_presence_of(:description) }
+      it { should validate_presence_of(:name) }
       it { should validate_presence_of(:price) }
       it { should validate_presence_of(:weight) }
     end

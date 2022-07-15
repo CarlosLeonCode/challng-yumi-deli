@@ -1,24 +1,16 @@
-# README
+### INFO
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+You can authenticate as Admin or a customer.
 
-Things you may want to cover:
+# Setup project
 
-* Ruby version
+```bash
+bundle exec bin/setup
+```
 
-* System dependencies
+Once project was configurated, you can login as admin with the following user:
 
-* Configuration
+- email: 'yumi@yumi.com'
+- password: 123456
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Or create a customer user

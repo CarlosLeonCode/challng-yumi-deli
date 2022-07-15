@@ -1,5 +1,7 @@
 class OrdersController < ApplicationController
   before_action :set_order, only: %i[ show edit update destroy ]
+  before_action :authenticate_admin!, only: %w(index)
+  before_action :authenticate_customer!, only: %w(new create edit update)
 
   # GET /orders or /orders.json
   def index
