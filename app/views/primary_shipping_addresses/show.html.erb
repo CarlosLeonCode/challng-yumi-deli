@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @primary_shipping_address %>
+
+<div>
+  <%= link_to "Edit this primary shipping address", edit_primary_shipping_address_path(@primary_shipping_address) %> |
+  <%= link_to "Back to primary shipping addresses", primary_shipping_addresses_path %>
+
+  <%= button_to "Destroy this primary shipping address", @primary_shipping_address, method: :delete %>
+</div>

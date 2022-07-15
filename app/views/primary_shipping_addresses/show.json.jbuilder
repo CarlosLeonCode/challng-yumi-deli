@@ -1,0 +1,1 @@
+json.partial! "primary_shipping_addresses/primary_shipping_address", primary_shipping_address: @primary_shipping_address
