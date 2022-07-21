@@ -11,32 +11,29 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :order_number, style: "display: block" %>
-    <%= form.text_field :order_number %>
+  <div class="mb-3">
+    <%= form.label :address, class: 'form-label' %>
+    <%= form.select :address_id, current_customer.customer_addresses.collect { |address| ["#{address.street} #{address.number}", address.id] }, class: 'form-control' %>
   </div>
 
   <div>
-    <%= form.label :customer_id, style: "display: block" %>
-    <%= form.text_field :customer_id %>
+    <%= form.label :payment_type, class: 'form-label' %>
+    <%= form.select :payment_type, options_for_select([['cash', :cash], ['credit', :credit], ['check', :check], ['other', :other]]) %>
   </div>
 
-  <div>
-    <%= form.label :primary_shipping_address_id, style: "display: block" %>
-    <%= form.text_field :primary_shipping_address_id %>
+  <div class="mb-3">
+    <% @products.each do |prod| %>
+      <label class="check-lbl">
+        <%= check_box_tag 'products[]', prod.id %>
+        <span class="check">
+          <%= prod.name %> -
+          <%= prod.price %>
+        </span>
+      </label>
+    <% end %>
   </div>
 
-  <div>
-    <%= form.label :payment_type, style: "display: block" %>
-    <%= form.number_field :payment_type %>
-  </div>
-
-  <div>
-    <%= form.label :total_order_value, style: "display: block" %>
-    <%= form.text_field :total_order_value %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+  <div class="new_order_btn">
+    <%= form.submit class: 'btn btn-primary w-50' %>
   </div>
 <% end %>

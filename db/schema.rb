@@ -23,15 +23,22 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_15_031058) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
 
-  create_table "customers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "phone", null: false
+  create_table "customer_addresses", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "customer_id", null: false
     t.string "street"
     t.string "number"
     t.string "city"
     t.string "state"
     t.string "zip_code"
     t.string "country"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_customer_addresses_on_customer_id"
+  end
+
+  create_table "customers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "phone", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email", default: "", null: false
@@ -58,8 +65,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_15_031058) do
     t.bigint "customer_id", null: false
     t.integer "payment_type", limit: 2
     t.decimal "total_order_value", precision: 10
+    t.bigint "customer_addresses_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["customer_addresses_id"], name: "index_orders_on_customer_addresses_id"
     t.index ["customer_id"], name: "index_orders_on_customer_id"
   end
 
@@ -72,7 +81,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_15_031058) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "customer_addresses", "customers"
   add_foreign_key "order_products", "orders"
   add_foreign_key "order_products", "products"
+  add_foreign_key "orders", "customer_addresses", column: "customer_addresses_id"
   add_foreign_key "orders", "customers"
 end

@@ -1,9 +1,8 @@
 class Order < ApplicationRecord
   belongs_to :customer
-  belongs_to :primary_shipping_address
+  belongs_to :customer_address, optional: true
   has_many :order_products
-
-  validates_presence_of :order_number, :payment_type, :total_order_value
+  has_many :products, through: :order_products
   
   enum payment_type: { cash: 0, credit: 1, check: 2, other: 3 }
 
@@ -12,7 +11,7 @@ class Order < ApplicationRecord
   private
 
   def generate_order_number
-    string_param = "#{self.id}#{self.customer.id}#{self.primary_shipping_address.id}#{self.created_at}"
+    string_param = "#{self.id}#{self.customer.id}#{self.customer_addresses_id}#{self.created_at}"
     self.order_number = Digest::MD5.hexdigest string_param
   end
 end

@@ -21,14 +21,15 @@ Rails.application.routes.draw do
     resources :products
     resources :customers
     # resources :primary_shipping_addresses
-    # resources :order_products
-    resources :orders
+    resources :orders, only: %w(index edit update destroy)
 
     root to: 'home#admin', as: :admin_root
   end
 
   authenticated :customer do
     root to: 'home#customer', as: :customer_root
+    resources :orders, only: %w(new create destroy)
+    resources :customer_addresses
   end
 
   unauthenticated do

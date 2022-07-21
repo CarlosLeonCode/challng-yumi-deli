@@ -3,6 +3,8 @@ class OrdersController < ApplicationController
   before_action :authenticate_admin!, only: %w(index)
   before_action :authenticate_customer!, only: %w(new create edit update)
 
+  layout 'customer'
+
   # GET /orders or /orders.json
   def index
     @orders = Order.all
@@ -14,7 +16,10 @@ class OrdersController < ApplicationController
 
   # GET /orders/new
   def new
+    return redirect_to customer_root_path, notice: 'You need to add an address to can create some order' if current_customer.customer_addresses.count == 0
+
     @order = Order.new
+    @products = Product.all
   end
 
   # GET /orders/1/edit
@@ -23,17 +28,18 @@ class OrdersController < ApplicationController
 
   # POST /orders or /orders.json
   def create
-    @order = Order.new(order_params)
+    CreateOrderInteractor.call(params: params, customer: current_customer)
+    # @order = Order.new(order_params)
 
-    respond_to do |format|
-      if @order.save
-        format.html { redirect_to order_url(@order), notice: "Order was successfully created." }
-        format.json { render :show, status: :created, location: @order }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
-      end
-    end
+    # respond_to do |format|
+    #   if @order.save
+    #     format.html { redirect_to order_url(@order), notice: "Order was successfully created." }
+    #     format.json { render :show, status: :created, location: @order }
+    #   else
+    #     format.html { render :new, status: :unprocessable_entity }
+    #     format.json { render json: @order.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # PATCH/PUT /orders/1 or /orders/1.json
@@ -67,6 +73,6 @@ class OrdersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def order_params
-      params.require(:order).permit(:order_number, :customer_id, :primary_shipping_address_id, :payment_type, :total_order_value)
+      params.require(:order).permit(:order_number, :customer_id, :payment_type, :total_order_value)
     end
 end

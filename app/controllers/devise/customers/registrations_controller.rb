@@ -8,8 +8,7 @@ module Devise
 
     def configure_sign_up_params
       devise_parameter_sanitizer.permit(:sign_up, keys: [
-        :name, :phone, :street, :number, 
-        :city, :state, :zip_code, :country
+        :name, :phone
       ])
     end
   end

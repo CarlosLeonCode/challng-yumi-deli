@@ -6,5 +6,7 @@ class Customer < ApplicationRecord
   
   validates_presence_of :name, :phone, :email
   validates :phone, uniqueness: { message: 'is already in use!' }
+
   has_many :orders
+  has_many :customer_addresses
 end
